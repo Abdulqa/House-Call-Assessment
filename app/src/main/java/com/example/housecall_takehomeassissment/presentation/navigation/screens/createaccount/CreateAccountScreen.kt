@@ -55,7 +55,7 @@ fun CreateAccountScreen(
 
                 CreateAccountScreenUiCallbacks.AccountCreated -> {
                     Toast.makeText(context, "Account Created Successfully", Toast.LENGTH_SHORT).show()
-                    navController.navigate(Routes.MY_MEDICATION)
+                    navController.navigate(Routes.LOGIN)
                 }
             }
         }
