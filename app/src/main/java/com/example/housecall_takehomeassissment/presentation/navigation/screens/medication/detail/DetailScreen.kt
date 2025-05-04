@@ -20,6 +20,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,15 +32,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.housecall_takehomeassissment.R
+import com.example.housecall_takehomeassissment.presentation.navigation.screens.medication.detail.model.MedicationDetailsUiEvents
 import com.example.housecall_takehomeassissment.presentation.theme.Blue
 
 @Composable
 fun MedicationDetailScreen(
     navController: NavController,
-    medicineName: String = "Medicine 1",
+    viewModel: MedicationDetailsViewModel = hiltViewModel(),
     genericName: String = "Generic Name",
     dosageInfo: String = """
         Tablet:
@@ -72,6 +76,10 @@ fun MedicationDetailScreen(
         Children (7 to 11 years): Take ½-1 Tablet every four to six hours as needed. Do not take more than 4 caplets in 24 hours. Not recommended in children under 7 years.
     """.trimIndent()
 ) {
+
+
+    val uiState by viewModel.uiState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -113,7 +121,7 @@ fun MedicationDetailScreen(
                     .clip(CircleShape)
             )
             Text(
-                text = medicineName,
+                text = uiState.medicineDetailObj?.name.orEmpty(),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -157,15 +165,17 @@ fun MedicationDetailScreen(
             }
         }
 
-        Button(
-            onClick = { /* Handle add action */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF007AFF))
-        ) {
-            Text("Add Medication to List", fontSize = 17.sp, color = Color.White)
+        if (uiState.showAddBtn) {
+            Button(
+                onClick = { viewModel.onEvent(MedicationDetailsUiEvents.OnAddToMyListClick(uiState.medicineDetailObj)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF007AFF))
+            ) {
+                Text("Add Medication to List", fontSize = 17.sp, color = Color.White)
+            }
         }
     }
 }
