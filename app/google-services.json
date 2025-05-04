@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "733079633420",
+    "project_id": "housecall-assissment",
+    "storage_bucket": "housecall-assissment.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:733079633420:android:92697c3102c91d835b7829",
+        "android_client_info": {
+          "package_name": "com.example.housecall_takehomeassissment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMfoIkWuEB9z5abVYOfzJ0DgCjJM2Mupc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
