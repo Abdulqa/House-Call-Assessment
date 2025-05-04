@@ -70,4 +70,9 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.material)
+
+    implementation(libs.squareup.retrofit)
+    implementation(libs.squareup.converter.gson)
+    implementation(libs.squareup.okhttp)
+    implementation(libs.squareup.okhttp.logging.interceptor)
 }
