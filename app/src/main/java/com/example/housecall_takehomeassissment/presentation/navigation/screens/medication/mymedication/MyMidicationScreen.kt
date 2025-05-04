@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -80,7 +81,7 @@ fun MyMedicationScreen(
         ) {
             items(
                 items = uiState.medicineList,
-                key = { it }
+                key = { it.rxcui.orEmpty() }
             ) { medicine ->
                 SwipeToDeleteContainer(
                     item = medicine,
@@ -91,9 +92,15 @@ fun MyMedicationScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(54.dp)
-                            .background(color = White).clickable {
-                                navController.navigate(Routes.MEDICATION_DETAILS)
+                            .defaultMinSize(minHeight = 54.dp)
+                            .background(color = White)
+                            .clickable {
+                                navController.navigate(
+                                    Routes.Companion.MEDICATION_DETAILS.createRoute(
+                                        medicine,
+                                        false
+                                    )
+                                )
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -103,7 +110,7 @@ fun MyMedicationScreen(
                         )
 
                         Text(
-                            text = medicine,
+                            text = "${medicine.rxcui.orEmpty()}\n${medicine.name.orEmpty()}",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp)
