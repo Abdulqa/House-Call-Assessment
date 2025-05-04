@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.housecall_takehomeassissment.presentation.Routes
 import com.example.housecall_takehomeassissment.presentation.navigation.screens.createaccount.model.CreateAccountEvent
 import com.example.housecall_takehomeassissment.presentation.navigation.screens.createaccount.model.CreateAccountScreenUiCallbacks
 import com.example.housecall_takehomeassissment.presentation.theme.Blue
@@ -54,6 +55,7 @@ fun CreateAccountScreen(
 
                 CreateAccountScreenUiCallbacks.AccountCreated -> {
                     Toast.makeText(context, "Account Created Successfully", Toast.LENGTH_SHORT).show()
+                    navController.navigate(Routes.MY_MEDICATION)
                 }
             }
         }

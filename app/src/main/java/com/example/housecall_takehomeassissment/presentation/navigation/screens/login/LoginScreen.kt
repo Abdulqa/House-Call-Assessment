@@ -56,7 +56,8 @@ fun LoginScreen(
                 }
 
                 LoginScreenUiCallbacks.LoginSuccess -> {
-
+                    // navigate to my medicaiton screen
+                    navController.navigate(Routes.MY_MEDICATION)
                 }
             }
         }
@@ -125,7 +126,7 @@ fun LoginScreen(
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Blue)
         ) {
-            Text(text = "Create Account", color = Color.White)
+            Text(text = "Login", color = Color.White)
         }
     }
 }
