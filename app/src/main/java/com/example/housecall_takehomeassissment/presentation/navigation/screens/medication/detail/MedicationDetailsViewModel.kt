@@ -7,14 +7,17 @@ import com.example.housecall_takehomeassissment.data.mapper.toEntity
 import com.example.housecall_takehomeassissment.data.models.ConceptProperty
 import com.example.housecall_takehomeassissment.data.repo.MedicationRepository
 import com.example.housecall_takehomeassissment.presentation.Routes.Companion.MEDICATION_DETAILS
+import com.example.housecall_takehomeassissment.presentation.navigation.screens.medication.detail.model.MedicationDetailsUiCallbacks
 import com.example.housecall_takehomeassissment.presentation.navigation.screens.medication.detail.model.MedicationDetailsUiEvents
 import com.example.housecall_takehomeassissment.presentation.navigation.screens.medication.detail.model.MedicationDetailsUiState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +27,9 @@ class MedicationDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val repository: MedicationRepository
 ) : ViewModel() {
+
+    private val _uiCallback = Channel<MedicationDetailsUiCallbacks>()
+    val uiCallback = _uiCallback.receiveAsFlow()
 
     private val _uiState = MutableStateFlow(
         MedicationDetailsUiState(
@@ -50,9 +56,12 @@ class MedicationDetailsViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.insertDrugs(entityObj)
-            if (result != -1L) {
+            if (result) {
                 _uiState.update { it.copy(showAddBtn = false) }
+            } else {
+                _uiCallback.send(MedicationDetailsUiCallbacks.FailedToAddInMyList("3 records already added"))
             }
         }
     }
 }
+

@@ -18,4 +18,7 @@ interface DrugDao {
 
     @Delete
     suspend fun deleteDrug(drug: DrugEntity)
+
+    @Query("SELECT COUNT(*) FROM drugs WHERE userId = :userId")
+    suspend fun getUserRecordCount(userId: String): Int
 }

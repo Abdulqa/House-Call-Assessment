@@ -31,7 +31,15 @@ class MedicationRepository @Inject constructor(
         return drugDao.getAllDrugs(userId)
     }
 
-    suspend fun insertDrugs(drugs: DrugEntity): Long = drugDao.insertDrugs(drugs)
+    suspend fun insertDrugs(drug: DrugEntity): Boolean {
+        val currentCount = drugDao.getUserRecordCount(drug.userId)
+        return if (currentCount < 3) {
+            drugDao.insertDrugs(drug)
+            true
+        } else {
+            false
+        }
+    }
 
     suspend fun deleteDrug(drug: DrugEntity) {
         drugDao.deleteDrug(drug)

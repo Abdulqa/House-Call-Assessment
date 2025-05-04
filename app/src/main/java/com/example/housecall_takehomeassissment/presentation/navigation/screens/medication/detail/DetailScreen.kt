@@ -1,5 +1,6 @@
 package com.example.housecall_takehomeassissment.presentation.navigation.screens.medication.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,12 +21,14 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,8 +39,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.housecall_takehomeassissment.R
+import com.example.housecall_takehomeassissment.presentation.navigation.screens.medication.detail.model.MedicationDetailsUiCallbacks
 import com.example.housecall_takehomeassissment.presentation.navigation.screens.medication.detail.model.MedicationDetailsUiEvents
 import com.example.housecall_takehomeassissment.presentation.theme.Blue
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MedicationDetailScreen(
@@ -77,8 +82,18 @@ fun MedicationDetailScreen(
     """.trimIndent()
 ) {
 
-
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.uiCallback.collectLatest {
+            when (it) {
+                is MedicationDetailsUiCallbacks.FailedToAddInMyList -> {
+                    Toast.makeText(context, it.msg, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
