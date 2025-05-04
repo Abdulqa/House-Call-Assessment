@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -134,10 +135,16 @@ fun SearchMedicationScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(54.dp)
+                            .defaultMinSize(minHeight = 54.dp)
                             .padding(horizontal = 12.dp)
-                            .background(color = White).clickable {
-                                navController.navigate(Routes.MEDICATION_DETAILS)
+                            .background(color = White)
+                            .clickable {
+                                navController.navigate(
+                                    Routes.Companion.MEDICATION_DETAILS.createRoute(
+                                        medicine,
+                                        true
+                                    )
+                                )
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -147,7 +154,7 @@ fun SearchMedicationScreen(
                         )
 
                         Text(
-                            text = medicine,
+                            text = "${medicine.rxcui.orEmpty()}\n${medicine.name.orEmpty()}",
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(16.dp)
