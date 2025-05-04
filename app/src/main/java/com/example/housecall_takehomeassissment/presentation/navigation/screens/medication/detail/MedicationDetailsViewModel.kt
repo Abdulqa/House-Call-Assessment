@@ -25,13 +25,6 @@ class MedicationDetailsViewModel @Inject constructor(
     val repository: MedicationRepository
 ) : ViewModel() {
 
-
-    private val medicineDetailObj =
-        savedStateHandle.get<String>(MEDICATION_DETAILS.DETAILS_OBJ_KEY)?.let {
-            Gson().fromJson(it, ConceptProperty::class.java)
-        }
-
-
     private val _uiState = MutableStateFlow(
         MedicationDetailsUiState(
             showAddBtn = savedStateHandle.get<Boolean>(MEDICATION_DETAILS.SHOW_ADD_TO_DB_BTN_KEY)
